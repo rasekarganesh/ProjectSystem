@@ -1,0 +1,21 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using Projektsystem.BlazorApp.ServiceHelper
+@using Projektsystem.BlazorApp.Data
+@using Projektsystem.BlazorApp.Shared
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@using TabBlazor.Services
+@using Projektsystem.AppService.Repository
+@using Projektsystem.Model
+@using Projektsystem.AppService
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject LanguageNotifierService LanguageNotifier
+@inject ProtectedLocalStorage ProtectedLocalStorage
+@attribute [Authorize]

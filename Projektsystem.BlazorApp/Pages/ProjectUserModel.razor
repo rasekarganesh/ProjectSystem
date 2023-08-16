@@ -1,0 +1,155 @@
+﻿@using TabBlazor
+@using TabBlazor.Services
+@inject IStringLocalizer<ProjectUserModel> loc
+
+    <div class="mb-3">
+        <ItemSelect Items="users" SelectedTextExpression="e=> e.Name" @bind-SelectedValue="selectedUser"
+                    NoSelectedText="Select User" Changed="ValueChange"
+                    SearchMethod="SearchUsers" SearchPlaceholderText="Search...">
+            <ListTemplate>
+                <span class="avatar avatar-sm" style="background-image: url(@context.ProfilePicture)"></span>
+                &nbsp;
+                @context.Name
+            </ListTemplate>
+        </ItemSelect>
+        </div>
+        <div class="mb-3">
+            <Table Item="ProjectUser" Items="projectUsers" PageSize="5" EditMode="TableEditMode.Inline"
+                   OnItemDeleted="OnUserDelete"
+                   Selectable Hover Responsive>
+                <HeaderTemplate>
+                        <span> Project User </span>
+                    </HeaderTemplate>
+
+                <ChildContent>
+                    <Column Item="ProjectUser" Property="e=>e.Picture" Title="Picture">
+                        <Template>
+                            <span class="avatar avatar-sm" style="background-image: url(@context.Picture)"></span>
+                        </Template>
+                    </Column>
+                    <Column Item="ProjectUser" Property="e=>e.Name" Title="Name" Sortable>
+                        <Template>
+                        
+                             @context.Name 
+                        </Template>
+                    </Column>
+
+                    @*<Column Item="ProjectUser" Property="e=>e.Archived" Title="Archived" Sortable>
+
+        </Column>*@
+                </ChildContent>
+            </Table>
+        </div>
+
+        @code {
+            [Parameter]
+            public Project Project { get; set; }
+
+            private List<User> users = new List<User>();
+            private User selectedUser;
+
+            @inject IModalService ModalService
+
+            @inject ToastService ToastService;
+            @inject IProjectUserRepository ProjectUserService;
+            @inject IUserRepository UserService;
+            @inject SocialAuthenticationProvider AuthenticationStateProvider;
+            @inject IAuditLogRepository AuditLogService;
+
+            public List<ProjectUser> projectUsers = new List<ProjectUser>();
+
+            protected override void OnInitialized()
+            {
+                projectUsers = ProjectUserService.GetAll().Where(i => i.ProjectId == Project.Id).ToList();
+                users = UserService.GetAll().ToList();
+            }
+
+            private IEnumerable<User> SearchUsers(string searchText)
+            {
+                return users.Where(e => e.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase));
+            }
+
+            private async Task ValueChange()
+            {
+                if (!ProjectUserService.IsUserAuthorizedForProject(AuthenticationStateProvider.CurrentUser.Id, Project.Id))
+                {
+                    await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+                    {
+                        CancelText = "",
+                        StatusColor = TablerColor.Danger,
+                        IconType = TablerIcons.Info_circle,
+                        MainText = "Unauthorized! : Add/Update not allowed."
+                    });
+                    selectedUser = null;
+                    return;
+                }
+                if (selectedUser != null)
+                {
+                    if (projectUsers.Where(i => i.UserId == selectedUser.Id).Count() == 0)
+                    {
+                        ProjectUserService.Add(new ProjectUser()
+                        {
+                            ProjectId = Project.Id,
+                            UserId = selectedUser.Id,
+                            Name = selectedUser.Name,
+                            Picture = selectedUser.ProfilePicture
+                        });
+
+                        await ToastService.AddToastAsync(new ToastModel
+                        {
+                            Message = "User added Sucessfully."
+                        });
+                        AuditLogService.Add(new AuditLog()
+                        {
+                            ForId = AuthenticationStateProvider.CurrentUser.Id,
+                            ForName = AuthenticationStateProvider.CurrentUser.Name,
+                            EventEnum = LogEventType.Created,
+                            Source = "Project User"
+                        });
+                        projectUsers = ProjectUserService.GetAll().Where(i => i.ProjectId == Project.Id).ToList();
+                    }
+                    else
+                    {
+                        await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+                        {
+                            CancelText = "",
+                            StatusColor = TablerColor.Danger,
+                            IconType = TablerIcons.Info_circle,
+                            MainText = "User already exist in this project."
+                        });
+                    }
+                }
+                selectedUser = null;
+            }
+
+            private async Task OnUserDelete(ProjectUser projectUser)
+            {
+                if (!ProjectUserService.IsUserAuthorizedForProject(AuthenticationStateProvider.CurrentUser.Id, Project.Id))
+                {
+                    await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+                    {
+                        CancelText = "",
+                        StatusColor = TablerColor.Danger,
+                        IconType = TablerIcons.Info_circle,
+                        MainText = "Unauthorized! : Add/Update not allowed."
+                    });
+                    return;
+                }
+
+                ProjectUserService.Delete(projectUser);
+
+                await ToastService.AddToastAsync(new ToastModel
+                {
+                    Message = "User removed Sucessfully."
+                });
+                AuditLogService.Add(new AuditLog()
+                {
+                    ForId = AuthenticationStateProvider.CurrentUser.Id,
+                    ForName = AuthenticationStateProvider.CurrentUser.Name,
+                    EventEnum = LogEventType.Deleted,
+                    Source = "Project User"
+                });
+                projectUsers = ProjectUserService.GetAll().Where(i => i.ProjectId == Project.Id).ToList();
+            }
+     }
+

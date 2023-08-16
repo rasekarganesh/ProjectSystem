@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using Microsoft.JSInterop;
+@using Projektsystem.AppService.Services;
+@using System.Globalization;
+@using Projektsystem.Model;
+@using TabBlazor;
+@inject IJSRuntime JSRuntime
+@inject ProtectedLocalStorage ProtectedLocalStorage
+@inject LanguageNotifierService LanguageNotifierService
+@inject IStringLocalizer<LanguageSelector> loc
+
+
+<Dropdown>
+    <ChildContent>
+        <Flag Size="FlagSize.Small" FlagType="@selectedFlagType" IsDropDown />
+    </ChildContent>
+
+    <DropdownTemplate>
+        <DropdownMenu>
+            <span class="dropdown-header">@loc["Language"]</span>
+            @foreach (UILanguage lang in languagesList)
+            {
+                @if (selectedFlagType.Country.Alpha2 == lang.CountryCode)
+                {
+                    <DropdownItem OnClick=@(() => OnChangeLanguageAsync(lang.CultureName)) Active>
+                        <Flag Size="FlagSize.XSmall" CountryCode="@lang.CountryCode" /> &nbsp; @lang.Name
+                    </DropdownItem>
+                }
+                else
+                {
+                    <DropdownItem OnClick=@(() => OnChangeLanguageAsync(lang.CultureName))>
+                        <Flag Size="FlagSize.XSmall" CountryCode="@lang.CountryCode" /> &nbsp; @lang.Name
+                    </DropdownItem>
+                }
+            }
+        </DropdownMenu>
+    </DropdownTemplate>
+</Dropdown>
+
+@code {
+    @inject IUILanguageRepository LanguageService;
+
+
+    protected IFlagType selectedFlagType = Flags.UnitedKingdom;
+    List<Model.UILanguage> languagesList = new List<UILanguage>();
+
+    private async Task OnChangeLanguageAsync(string selectedCulture)
+    {
+        if (!string.IsNullOrEmpty(selectedCulture))
+        {
+            if (selectedCulture == "en-GB")
+            {
+                //  selectedCountryCode = "GB";
+                selectedFlagType = Flags.UnitedKingdom;
+            }
+            else
+            {
+                //  selectedCountryCode = "SE";
+                selectedFlagType = Flags.Sweden;
+            }
+            await ProtectedLocalStorage.SetAsync("ProjekLanguage", selectedCulture);
+            LanguageNotifierService.CurrentCulture = CultureInfo.GetCultureInfo(selectedCulture);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        languagesList = LanguageService.GetAll().ToList();
+
+        try // when render at server side, there is no local storage. Wrap the code in an empty try catch is necessary
+        {
+            var inputCultureLocalStorageResult = await ProtectedLocalStorage.GetAsync<string>("ProjekLanguage");
+
+            if (inputCultureLocalStorageResult.Success && !string.IsNullOrEmpty(inputCultureLocalStorageResult.Value))
+            {
+
+                var selectedCulture = CultureInfo.GetCultureInfo(inputCultureLocalStorageResult.Value);
+                LanguageNotifierService.CurrentCulture = selectedCulture;
+                await OnChangeLanguageAsync(inputCultureLocalStorageResult.Value);
+            }
+        }
+        catch
+        {
+        }
+
+    }
+}

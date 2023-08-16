@@ -1,0 +1,24 @@
+﻿@using TabBlazor
+@inherits LayoutComponentBase
+<ModalContainer />
+<ToastContainer />
+
+
+<AuthorizeView>
+    <Authorized>
+        <NavMenu />
+    </Authorized>
+</AuthorizeView>
+
+<div class="page">
+    <div class="container-fluid">
+        @Body
+    </div>
+</div>
+@*    <div class="page @(appService.Settings.DarkMode ? "theme-dark": "")">
+        <div class="content">
+            <div class="container-fluid mt-2">
+                @Body
+            </div>
+        </div>
+    </div>*@

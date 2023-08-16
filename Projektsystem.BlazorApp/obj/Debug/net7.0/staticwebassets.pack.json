@@ -1,0 +1,113 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Projektsystem.BlazorApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Projektsystem.BlazorApp.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\.DS_Store",
+      "PackagePath": "staticwebassets\\.DS_Store"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\tabler-docs.css",
+      "PackagePath": "staticwebassets\\css\\tabler-docs.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\css\\tabler-docs.min.css",
+      "PackagePath": "staticwebassets\\css\\tabler-docs.min.css"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\img\\002m.jpg",
+      "PackagePath": "staticwebassets\\img\\002m.jpg"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\img\\006m.jpg",
+      "PackagePath": "staticwebassets\\img\\006m.jpg"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\img\\016f.jpg",
+      "PackagePath": "staticwebassets\\img\\016f.jpg"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\js\\FbAuth.js",
+      "PackagePath": "staticwebassets\\js\\FbAuth.js"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\js\\GoogleAuth.js",
+      "PackagePath": "staticwebassets\\js\\GoogleAuth.js"
+    },
+    {
+      "Id": "D:\\vs2022\\BlazorProject\\Projektsystem\\Projektsystem.BlazorApp\\wwwroot\\js\\MsAuth.js",
+      "PackagePath": "staticwebassets\\js\\MsAuth.js"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Projektsystem.BlazorApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Projektsystem.BlazorApp.props",
+      "PackagePath": "build\\Projektsystem.BlazorApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Projektsystem.BlazorApp.props",
+      "PackagePath": "buildMultiTargeting\\Projektsystem.BlazorApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Projektsystem.BlazorApp.props",
+      "PackagePath": "buildTransitive\\Projektsystem.BlazorApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

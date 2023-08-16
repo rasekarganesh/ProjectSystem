@@ -1,0 +1,65 @@
+﻿@using TabBlazor
+@inject SocialAuthenticationProvider AuthenticationStateProvider;
+@inject NavigationManager NavigationManager
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="mt-2">
+            <Row class="mt-1 row-deck row-cards">
+                <RowCol Sm="12" Md="4" Lg="4">
+                </RowCol>
+                <RowCol Sm="12" Md="4" Lg="4">
+                    <Alert BackgroundColor="TablerColor.Danger">
+                        <Icon Size="48" StrokeWidth="1.5" class="me-2" IconType="@TablerIcons.Alert_triangle" />
+                        <div class="text-muted ">
+                            <h4>Unauthorized! Please click on Refresh button.</h4>
+                            @*<p> Please Click On Login Button </p>
+                        <ButtonList>
+
+                            <NavLink href="login">  <Button BackgroundColor="@TablerColor.Success">Login</Button> </NavLink>
+                        </ButtonList>*@
+
+                            <Button @onclick="Reload" BackgroundColor="@TablerColor.Success">Refresh</Button>
+                        </div>
+                    </Alert>
+                </RowCol>
+                </Row>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (string.IsNullOrEmpty(AuthenticationStateProvider.CurrentUser.Email))
+        {
+            NavigationManager.NavigateTo("login", false);
+        }
+        // base.OnAfterRender(firstRender);
+    }
+
+    private void Reload()
+    {
+        NavigationManager.NavigateTo("", true);
+    }
+
+
+@*@inject TabBlazor.Services.IModalService ModalService
+
+        protected async Task ShowInfoModal()
+        {
+
+            await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+            {
+                MainText = "You have a new message",
+                SubText = "Check your inbox for more information",
+                IconType = TablerIcons.Message,
+                CancelText = "",
+                StatusColor = TablerColor.Primary
+            });
+
+
+        }*@
+}
+

@@ -1,0 +1,130 @@
+﻿@page "/users"
+@inject IStringLocalizer<Users> loc;
+@using Projektsystem.Model;
+@using TabBlazor;
+
+@attribute [Authorize(Roles = "superuser,user")]
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center mt-1">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                        Overview
+                    </div>*@
+                <h2 class="page-title">
+                    @loc["Users"]
+                </h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+
+
+
+        <Table Item="User" Items="users" PageSize="10"
+               Hover Responsive>
+            <HeaderTemplate>
+                <strong>  @loc["Users"]</strong>
+            </HeaderTemplate>
+
+            <ChildContent>
+                <Column Item="User" Property="e=>e.ProfilePicture" Title=@loc["Picture"]>
+                    <Template>
+                        <span class="avatar avatar-sm" style="background-image: url(@context.ProfilePicture)"></span>
+                    </Template>
+                </Column>
+                <Column Item="User" Property="e=>e.Name" Title="Name" Sortable Searchable Groupable>
+
+                </Column>
+                @*<Column Item="User" Property="e=>e.MobileNumber" Title="MobileNumber" Sortable Searchable Groupable>
+                    </Column>*@
+
+                <Column Item="User" Property="e=>e.Email" Title="Email" Sortable Searchable Groupable>
+                </Column>
+                <Column Item="User" Property="e=>e.Role" Title="Role" Sortable Searchable Groupable>
+                </Column>
+                <Column Item="User" Property="e=>e.IsGoogleUser" Title="Google" Sortable Searchable Groupable>
+                    <Template>
+                        @if (context.IsGoogleUser)
+                        {
+                            <Badge BackgroundColor="TablerColor.Green">@context.IsGoogleUser</Badge>
+                        }
+                        else
+                        {
+                            <Badge BackgroundColor="TablerColor.Red">@context.IsGoogleUser</Badge>
+                        }
+                    </Template>
+                </Column>
+                <Column Item="User" Property="e=>e.IsFacebookUser" Title="Facebook" Sortable Searchable Groupable>
+                    <Template>
+                        @if (context.IsFacebookUser)
+                        {
+                            <Badge BackgroundColor="TablerColor.Green">@context.IsFacebookUser</Badge>
+                        }
+                        else
+                        {
+                            <Badge BackgroundColor="TablerColor.Red">@context.IsFacebookUser</Badge>
+                        }
+                    </Template>
+                </Column>
+                <Column Item="User" Property="e=>e.IsMicrosoftUser" Title="Microsoft" Sortable Searchable Groupable>
+                    <Template>
+                        @if (context.IsMicrosoftUser)
+                        {
+                            <Badge BackgroundColor="TablerColor.Green">@context.IsMicrosoftUser</Badge>
+                        }
+                        else
+                        {
+                            <Badge BackgroundColor="TablerColor.Red">@context.IsMicrosoftUser</Badge>
+                        }
+                    </Template>
+                </Column>
+            </ChildContent>
+        </Table>
+
+    </div>
+</div>
+@code {
+    private List<User> users = new List<User>();
+    @inject IUserRepository UserService;
+    protected override void OnInitialized()
+    {
+
+        LanguageNotifier.SubscribeLanguageChange(this);
+        users = UserService.GetAll().ToList();
+    }
+    public void Dispose() => LanguageNotifier.UnsubscribeLanguageChange(this);
+
+    @inject IModalService ModalService;
+    private static List<User> selectedUsers = new List<User>();
+
+
+    private async Task OnItemDelete(User order)
+    {
+        await ShowDialog($"User deleted {order.Id}");
+    }
+
+    private bool SearchCountry(User order, string search)
+    {
+        var t = order;
+        return false;
+    }
+
+    private async Task ShowDialog(string title)
+    {
+        await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+        {
+            CancelText = "",
+            StatusColor = TabBlazor.TablerColor.Primary,
+            IconType = TablerIcons.Info_circle,
+            MainText = title
+        });
+    }
+
+}

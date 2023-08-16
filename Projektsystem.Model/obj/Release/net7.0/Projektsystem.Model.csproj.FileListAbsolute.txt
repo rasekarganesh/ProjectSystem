@@ -1,0 +1,12 @@
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/bin/Release/net7.0/Projektsystem.Model.deps.json
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/bin/Release/net7.0/Projektsystem.Model.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/bin/Release/net7.0/Projektsystem.Model.pdb
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.csproj.AssemblyReference.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.GeneratedMSBuildEditorConfig.editorconfig
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.AssemblyInfoInputs.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.AssemblyInfo.cs
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.csproj.CoreCompileInputs.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/refint/Projektsystem.Model.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/Projektsystem.Model.pdb
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.Model/obj/Release/net7.0/ref/Projektsystem.Model.dll

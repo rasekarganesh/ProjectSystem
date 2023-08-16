@@ -1,0 +1,78 @@
+﻿@using TabBlazor
+@inject IStringLocalizer<NavMenu> loc
+@inject LanguageNotifierService LanguageNotifier
+@inject SocialAuthenticationProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+﻿<Navbar Direction=NavbarDirection.Horizontal Background=NavbarBackground.Light>
+
+    <a href="#" class="navbar-brand navbar-brand-autodark">
+        @* <h2 class="text-muted">TabBlazor</h2>*@
+    </a>
+    <div class="navbar-nav flex-row order-md-last">
+        <div class="nav-item">
+            <div class="d-md-flex mt-0  me-2">
+                <Projektsystem.BlazorApp.Pages.LanguageSelector />
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link d-flex lh-1 text-reset p-0">
+                <span class="avatar avatar-sm" style="background-image: url(@AuthenticationStateProvider.CurrentUser.ProfilePicture)"></span>
+                <div class="d-none d-xl-block ps-2">
+                    <div>@AuthenticationStateProvider.CurrentUser.FirstName</div>
+                    <div class="mt-1 small text-muted">@AuthenticationStateProvider.CurrentUser.Email</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <NavbarMenu>
+        <NavbarMenuItem Href="" Text=@loc["Home"]>
+            <MenuItemIcon>
+                <Icon IconType="@TablerIcons.Home" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+        <NavbarMenuItem Href="projects" Text=@loc["Projects"]>
+            <MenuItemIcon>
+                <Icon IconType="@TablerIcons.Box" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+
+        <NavbarMenuItem Href="users" Text=@loc["Users"]>
+            <MenuItemIcon>
+                <Icon IconType="@TablerIcons.Users" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+        <AuthorizeView Roles="superuser">
+
+            <NavbarMenuItem Href="logs" Text=@loc["Logs"]>
+                <MenuItemIcon>
+                    <Icon IconType="@TablerIcons.Edit" />
+                </MenuItemIcon>
+            </NavbarMenuItem>
+
+        </AuthorizeView>
+
+        <NavbarMenuItem Href="help" Text=@loc["Help"]>
+            <MenuItemIcon>
+                <Icon IconType="@TablerIcons.Help" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+        <NavbarMenuItem Href="" @onclick="AuthenticationStateProvider.LogoutAsync" Text=@loc["Logout"]>
+            <MenuItemIcon>
+                <Icon IconType="@TablerIcons.Logout" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+    </NavbarMenu>
+</Navbar>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LanguageNotifier.SubscribeLanguageChange(this);
+        if (AuthenticationStateProvider.CurrentUser.Email != null)
+        {
+            NavigationManager.NavigateTo("", false);
+        }
+
+    }
+    public void Dispose() => LanguageNotifier.UnsubscribeLanguageChange(this);
+}

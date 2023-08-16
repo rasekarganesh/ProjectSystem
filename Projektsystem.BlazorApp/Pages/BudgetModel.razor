@@ -1,0 +1,151 @@
+﻿@using TabBlazor
+@using TabBlazor.Services
+@inject IStringLocalizer<BudgetModel> loc
+
+
+<TablerForm Model="@BudgetObj" OnValidSubmit="Submit">
+    <div class="row mb-3">
+        <div class="col-lg-4 col-md-4">
+            <label class="form-label">Budget Name</label>
+            <InputText class="form-control" @bind-Value="BudgetObj.Name"></InputText>
+            <TabValidationMessage For="(() => BudgetObj.Name)"></TabValidationMessage>
+
+            <label class="form-label mt-1">Cost Estimate : $ @BudgetObj.CostEstimate.ToString("N0") </label>
+            <RangeSlider TValue="decimal" @bind-Value="BudgetObj.CostEstimate" Min="0" Max="50000" Step="1000" />
+            <TabValidationMessage For="(() => BudgetObj.CostEstimate)"></TabValidationMessage>
+
+            <label class="form-label">ActualCost : $ @BudgetObj.ActualCost.ToString("N0") </label>
+            <RangeSlider TValue="decimal" @bind-Value="BudgetObj.ActualCost" Min="5000" Max="100000" Step="1000" />
+            <TabValidationMessage For="(() => BudgetObj.ActualCost)"></TabValidationMessage>
+
+            <label class="form-label">Early Cost Estimate : $ @BudgetObj.EarlyCostEstimate.ToString("N0")  </label>
+            <RangeSlider TValue="decimal" @bind-Value="BudgetObj.EarlyCostEstimate" Min="5000" Max="100000" Step="1000" />
+            <TabValidationMessage For="(() => BudgetObj.EarlyCostEstimate)"></TabValidationMessage>
+
+            <label class="form-label">Archived</label>
+            <Checkbox Label="" @bind-Value="BudgetObj.Archived" Switch />
+
+            <Button Type="ButtonType.Submit" Text=@loc["Save"] class="btn btn-primary mt-1"></Button>
+            <Button Type="ButtonType.Button" @onclick="ClearForm" Text="Clear" class="btn btn-primary mt-1"></Button>
+        </div>
+        <div class="col-lg-8 col-md-8">
+            <Table Item="Budget" Items="budgets" PageSize="5" EditMode="TableEditMode.Inline" OnItemSelected="onBudgetSelected"
+                   @bind-SelectedItems="@Selectedbudgets" Selectable Hover Responsive>
+                <HeaderTemplate>
+                    <strong> Budgets </strong>
+                </HeaderTemplate>
+
+                <ChildContent>
+
+                    <Column Item="Budget" Property="e=>e.Name" Title="Budget" Sortable>
+                    </Column>
+                    <Column Item="Budget" Property="e=>e.ActualCost" Title="Actual Cost" Sortable>
+                        <Template>
+                            $@context.ActualCost.ToString("N0")
+                        </Template>
+                    </Column>
+                    <Column Item="Budget" Property="e=>e.CostEstimate" Title="Cost Estimate" Sortable>
+                        <Template>
+                            $@context.CostEstimate.ToString("N0")
+                        </Template>
+                    </Column>
+                    <Column Item="Budget" Property="e=>e.EarlyCostEstimate" Title="Early Cost Estimate" Sortable>
+                        <Template>
+                            $@context.EarlyCostEstimate.ToString("N0")
+                        </Template>
+                    </Column>
+                    <Column Item="Budget" Property="e=>e.Archived" Title="Archived" Sortable>
+
+                    </Column>
+                </ChildContent>
+            </Table>
+        </div>
+    </div>
+
+    @*<div class="modal-footer">
+            <Button Type="ButtonType.Submit" Text=@loc["Save"] class="btn btn-primary mt-1"></Button>
+        </div>*@
+</TablerForm>
+
+@code {
+    @inject IModalService ModalService
+
+    @inject ToastService ToastService;
+    @inject IBudgetRepository BudgetService;
+    @inject SocialAuthenticationProvider AuthenticationStateProvider;
+    @inject IAuditLogRepository AuditLogService;
+    @inject IProjectUserRepository ProjectUserService;
+
+    [Parameter]
+    public string ProjectId { get; set; } = string.Empty;
+    private List<Budget> Selectedbudgets = new List<Budget>();
+    private List<Budget> budgets = new List<Budget>();
+    private Budget BudgetObj = new Budget();
+
+    private async Task Submit(EditContext obj)
+    {
+        if (!ProjectUserService.IsUserAuthorizedForProject(AuthenticationStateProvider.CurrentUser.Id, Guid.Parse(ProjectId)))
+        {
+            await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+            {
+                CancelText = "",
+                StatusColor = TablerColor.Danger,
+                IconType = TablerIcons.Info_circle,
+                MainText = "Unauthorized! : Add/Update not allowed."
+            });
+            return;
+        }
+
+        if (BudgetService.GetById(BudgetObj.Id) == null)
+        {
+            BudgetObj.ProjectId = Guid.Parse(ProjectId);
+            BudgetService.Add(BudgetObj);
+            // ModalService.Close(ModalResult.Ok());
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Message = "Budget is created"
+            });
+            AuditLogService.Add(new AuditLog()
+            {
+                ForId = AuthenticationStateProvider.CurrentUser.Id,
+                ForName = AuthenticationStateProvider.CurrentUser.Name,
+                EventEnum = LogEventType.Created,
+                Source = "Budget"
+            });
+        }
+        else
+        {
+            BudgetService.Update(BudgetObj);
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Message = "Budget is Updated"
+            });
+            AuditLogService.Add(new AuditLog()
+            {
+                ForId = AuthenticationStateProvider.CurrentUser.Id,
+                ForName = AuthenticationStateProvider.CurrentUser.Name,
+                EventEnum = LogEventType.Updated,
+                Source = "Budget"
+            });
+        }
+        budgets = BudgetService.GetAll().Where(i => i.ProjectId == Guid.Parse(ProjectId)).ToList();
+        BudgetObj = new Budget();
+    }
+    private void onBudgetSelected()
+    {
+        BudgetObj = Selectedbudgets.FirstOrDefault();
+        if(BudgetObj == null)
+        {
+            ClearForm();
+        }
+    }
+    private void ClearForm()
+    {
+        BudgetObj = new Budget();
+    }
+    protected override void OnInitialized()
+    {
+        budgets = BudgetService.GetAll().Where(i => i.ProjectId == Guid.Parse(ProjectId)).ToList();
+    }
+}
+

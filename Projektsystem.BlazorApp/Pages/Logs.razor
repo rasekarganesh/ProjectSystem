@@ -1,0 +1,66 @@
+﻿@page "/logs"
+@using TabBlazor
+@inject IAuditLogRepository AuditLogService
+@inject IStringLocalizer<Logs> loc;
+@attribute [Authorize(Roles = "superuser")]
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center mt-1">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                        Overview
+                    </div>*@
+                <h2 class="page-title">
+                    @loc["Logs"]
+                </h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+
+        <Table Item="AuditLog" Items="logs" PageSize="10"
+               Hover Responsive>
+            <HeaderTemplate>
+                <strong>@loc["Logs"]</strong>
+            </HeaderTemplate>
+
+            <ChildContent>
+
+                @*<Column Item="AuditLog" Property="e=>e.ForId" Title=@loc["User"] Sortable Searchable Groupable>
+                </Column>*@
+                <Column Item="AuditLog" Property="e=>e.ForName" Title=@loc["User"] Sortable Searchable Groupable>
+                </Column>
+                @*<Column Item="AuditLog" Property="e=>e.MarkdownText" Title="Description">
+        </Column>*@
+                <Column Item="AuditLog" Property="e=>e.Source" Title=@loc["Source"] Sortable Searchable Groupable>
+                </Column>
+                <Column Item="AuditLog" Property="e=>e.EventTime" Title=@loc["Event On"] Sortable Searchable Groupable>
+                </Column>
+                <Column Item="AuditLog" Property="e=>e.EventEnum" Title=@loc["Action"] Sortable Searchable Groupable>
+                </Column>
+            </ChildContent>
+        </Table>
+    </div>
+</div>
+@code {
+
+    private List<AuditLog> logs = new List<AuditLog>();
+    protected override void OnInitialized()
+    {
+
+        LanguageNotifier.SubscribeLanguageChange(this);
+        GetAllLogs();
+    }
+    public void Dispose() => LanguageNotifier.UnsubscribeLanguageChange(this);
+
+    private void GetAllLogs()
+    {
+        logs = AuditLogService.GetAll().ToList();
+    }
+}

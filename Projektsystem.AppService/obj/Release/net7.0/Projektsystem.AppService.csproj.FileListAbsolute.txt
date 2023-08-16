@@ -1,0 +1,15 @@
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/bin/Release/net7.0/Projektsystem.AppService.deps.json
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/bin/Release/net7.0/Projektsystem.AppService.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/bin/Release/net7.0/Projektsystem.AppService.pdb
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/bin/Release/net7.0/Projektsystem.Model.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/bin/Release/net7.0/Projektsystem.Model.pdb
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.csproj.AssemblyReference.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.GeneratedMSBuildEditorConfig.editorconfig
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.AssemblyInfoInputs.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.AssemblyInfo.cs
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.csproj.CoreCompileInputs.cache
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.csproj.CopyComplete
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/refint/Projektsystem.AppService.dll
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/Projektsystem.AppService.pdb
+/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.AppService/obj/Release/net7.0/ref/Projektsystem.AppService.dll

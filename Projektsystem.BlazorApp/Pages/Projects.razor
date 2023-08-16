@@ -1,0 +1,243 @@
+﻿@page "/projects"
+@using Projektsystem.AppService
+@using TabBlazor.Components.Tables
+@using Projektsystem.Model
+@using TabBlazor
+
+<!-- Page header -->
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center mt-1">
+            <div class="col">
+                <!-- Page pre-title -->
+                @*<div class="page-pretitle">
+                        Overview
+                    </div>*@
+                <h2 class="page-title">
+                    @loc["Projects"]
+                </h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+                <div class="btn-list">
+                    <button @onclick="ShowModal" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <Icon IconType="@TablerIcons.Plus" />
+                        @loc["Create new Project"]
+                    </button>
+                    <button @onclick="ShowModal" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                        <Icon IconType="@TablerIcons.Plus" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body -->
+<div class="page-body">
+    <div class="container-xl">
+
+        <Table Item="Project" Items="projects" @ref="table" PageSize="10" EditMode="TableEditMode.Inline"
+               OnItemEdited="OnItemEdit" OnBeforeEdit="BeforeEdit" CancelStrategy="OnCancelStrategy.Revert"
+               Hover Responsive>
+            <HeaderTemplate>
+                <strong> @loc["Projects"]</strong>
+            </HeaderTemplate>
+
+            <ChildContent>
+
+                <Column Item="Project" Property="e=>e.Name" Title=@loc["Project Name"] Sortable Searchable Groupable>
+                    <EditorTemplate>
+                        <input type="text" class="form-control" @bind-value="@context.Name" />
+                    </EditorTemplate>
+                </Column>
+                <Column Item="Project" Property="e=>e.ForCompanyName" Title=@loc["For Company"] Sortable Searchable Groupable>
+                    <EditorTemplate>
+                        <Select Items="companies" @bind-SelectedValue="companyFor" TextExpression="e=> e.Name" ValueExpression="e=> e.Id" />
+                    </EditorTemplate>
+                </Column>
+                <Column Item="Project" Property="e=>e.ByCompanyName" Title=@loc["By Company"] Sortable Searchable Groupable>
+                    <EditorTemplate>
+                        <Select Items="companies" @bind-SelectedValue="companyBy" TextExpression="e=> e.Name" ValueExpression="e=> e.Id" />
+                    </EditorTemplate>
+                </Column>
+                <Column Item="Project" Property="e=>e.IsOpen" Title=@loc["IsOpen"] Sortable Searchable Groupable>
+                    <EditorTemplate>
+                        @*<SwitchContent class="form-control" @bind-value="@context.IsOpen" />*@
+                        <Checkbox @bind-Value="@context.IsOpen" Label="" />
+                    </EditorTemplate>
+                </Column>
+                <Column Item="Project" Property="e=>e.Status" Title=@loc["Status"] Sortable Searchable Groupable>
+                    <EditorTemplate>
+                        @*<input type="text" class="form-control" @bind-value="@context.Status" />*@
+                        <Select Items="EnumHelper.GetList<Model.Status>()" @bind-SelectedValue="@context.Status" TextExpression="e=> e.ToString()" ValueExpression="e=> e" />
+                    </EditorTemplate>
+                </Column>
+
+                <Column Item="Project" Title="">
+                    <Template>
+
+                        <button @onclick="(() => ShowModalForBudget(context.Id.ToString()))" class="btn btn-info btn-sm">
+                            <Icon IconType="@TablerIcons.Currency_dollar" />
+                        </button>
+
+                        <button @onclick="(() => ShowModalForUsers(context))" class="btn btn-info btn-sm">
+                            <Icon IconType="@TablerIcons.Users" />
+                        </button>
+
+                    </Template>
+                </Column>
+            </ChildContent>
+        </Table>
+
+    </div>
+</div>
+@code {
+
+    @inject IModalService ModalService
+    @inject IStringLocalizer<Projects> loc;
+    @inject ToastService ToastService;
+    @inject NavigationManager Navigator;
+    @inject IProjectRepository ProjectService;
+    @inject IAuditLogRepository AuditLogService;
+    @inject ICompanyRepository CompanyService;
+    @inject IProjectUserRepository ProjectUserService;
+    @inject SocialAuthenticationProvider AuthenticationStateProvider;
+    private List<Project> projects = new List<Project>();
+    private List<Company> companies = new List<Company>();
+    private Company companyFor;
+    private Company companyBy;
+    private Table<Project> table;
+    
+    
+
+    private async Task OnItemEdit(Project project)
+    {
+
+        project.ForCompanyId = companyFor.Id;
+        project.ForCompanyName = companyFor.Name;
+        project.ByCompanyId = companyBy.Id;
+        project.ByCompanyName = companyBy.Name;
+        ProjectService.Update(project);
+        // Console.WriteLine(order.Id)
+        await ToastService.AddToastAsync(new ToastModel
+        {
+            Title = "",
+            SubTitle = "",
+            Message = "Project Updated Successfully."
+        });
+        GetAllProjects();
+        AuditLogService.Add(new AuditLog()
+        {
+            ForId = AuthenticationStateProvider.CurrentUser.Id,
+            ForName = AuthenticationStateProvider.CurrentUser.Name,
+            EventEnum = LogEventType.Updated,
+            Source = "Project"
+        });
+
+    }
+
+    private async Task BeforeEdit(Project project)
+    {
+        if (!ProjectUserService.IsUserAuthorizedForProject(AuthenticationStateProvider.CurrentUser.Id, project.Id))
+        {
+            await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+            {
+                CancelText = "",
+                StatusColor = TablerColor.Danger,
+                IconType = TablerIcons.Info_circle,
+                MainText = "Unauthorized! : Update not allowed."
+            });
+            await table.CancelEdit();
+            //  GetAllProjects();
+
+            return;
+        }
+
+        companyFor = getCompanyById(project.ForCompanyId);
+        companyBy = getCompanyById(project.ByCompanyId);
+    }
+    protected override void OnInitialized()
+    {
+        LanguageNotifier.SubscribeLanguageChange(this);
+        GetAllProjects();
+        GetAllCompanies();
+    }
+    public void Dispose() => LanguageNotifier.UnsubscribeLanguageChange(this);
+
+
+
+
+    private Company getCompanyById(Guid id)
+    {
+        return companies.Where(i => i.Id == id).FirstOrDefault();
+    }
+
+    protected async Task ShowModal()
+    {
+
+        var component = new TabBlazor.RenderComponent<ProjectModel>().Set(e => e.ReportName, "Project");
+        var result = await ModalService.ShowAsync(loc["Create new Project"],
+                                                    component,
+                                                    new TabBlazor.ModalOptions
+                                                    {
+                                                        Size = TabBlazor.ModalSize.Large,
+                                                        Scrollable = false
+                                                    });
+
+        if (result.Cancelled == false)
+        {
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Title = "",
+                SubTitle = "",
+                Message = loc["ProCreateMsg"]
+            });
+            GetAllProjects();
+            AuditLogService.Add(new AuditLog()
+            {
+                ForId = AuthenticationStateProvider.CurrentUser.Id,
+                ForName = AuthenticationStateProvider.CurrentUser.Name,
+                EventEnum = LogEventType.Created,
+                Source = "Project"
+            });
+        }
+    }
+
+    private void GetAllProjects()
+    {
+        projects = ProjectService.GetAll().ToList();
+    }
+    private void GetAllCompanies()
+    {
+        companies = CompanyService.GetAll().ToList();
+    }
+
+
+    protected async Task ShowModalForBudget(string projectId)
+    {
+        var component = new TabBlazor.RenderComponent<BudgetModel>().Set(e => e.ProjectId, projectId);
+        await ModalService.ShowAsync("Budget",
+                                                    component,
+                                                    new TabBlazor.ModalOptions
+                                                    {
+                                                        Size = TabBlazor.ModalSize.XLarge,
+                                                        Scrollable = false
+                                                    });
+
+    }
+
+    protected async Task ShowModalForUsers(Project project)
+    {
+        var component = new TabBlazor.RenderComponent<ProjectUserModel>().Set(e => e.Project, project);
+        await ModalService.ShowAsync("Project Users",
+                                                    component,
+                                                    new TabBlazor.ModalOptions
+                                                    {
+                                                        Size = TabBlazor.ModalSize.Medium,
+                                                        Scrollable = false
+                                                    });
+    }
+}
+

@@ -1,0 +1,85 @@
+﻿@using TabBlazor
+@using TabBlazor.Services
+@inject IStringLocalizer<Projects> loc
+
+
+<TablerForm Model="@ProjectObj" OnValidSubmit="Submit">
+    <div class="mb-3">
+        <label class="form-label">@loc["Project Name"]</label>
+        <InputText class="form-control" @bind-Value="ProjectObj.Name"></InputText>
+        <TabValidationMessage For="(() => ProjectObj.Name)"></TabValidationMessage>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-lg-6">
+            <label class="form-label">@loc["For Company"] </label>
+            <ItemSelect Items="companies" @bind-SelectedValue="companyFor" SelectedTextExpression="e=>e.Name">
+                <ListTemplate>
+                    @context.Name
+                </ListTemplate>
+            </ItemSelect>
+     
+        </div>
+        <div class="col-lg-6">
+            <label class="form-label">@loc["By Company"] </label>
+            <ItemSelect Items="companies" @bind-SelectedValue="companyBy" SelectedTextExpression="e=>e.Name">
+                <ListTemplate>
+                    @context.Name
+                </ListTemplate>
+            </ItemSelect>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <Button Type="ButtonType.Submit" Text=@loc["Save"] class="btn btn-primary mt-1"></Button>
+    </div>
+</TablerForm>
+
+@code {
+    @inject IModalService ModalService
+
+    @inject ToastService ToastService;
+    @inject IProjectRepository ProjectService;
+    @inject ICompanyRepository CompanyService;
+    [Parameter]
+    public string ReportName { get; set; }
+
+    private List<Company> companies = new List<Company>();
+    private Company companyFor;
+    private Company companyBy;
+
+    private Project ProjectObj = new Project();
+
+    private async Task Submit(EditContext obj)
+    {
+        if (companyBy == null || companyFor == null)
+        {
+           await ModalService.ShowDialogAsync(new TabBlazor.Components.Modals.DialogOptions
+            {
+                MainText = "Please select by company and for company",
+               // SubText = "Check your inbox for more information",
+                IconType = TablerIcons.Face_id_error,
+                CancelText = "",
+                StatusColor = TablerColor.Danger
+            });
+            return;
+        }
+        ProjectObj.ByCompanyId = companyBy.Id;
+        ProjectObj.ByCompanyName = companyBy.Name;
+        ProjectObj.ForCompanyId = companyFor.Id;
+        ProjectObj.ForCompanyName = companyFor.Name;
+        ProjectService.Add(ProjectObj);
+        ModalService.Close(ModalResult.Ok());
+    }
+
+    protected override void OnInitialized()
+    {
+        companies = CompanyService.GetAll().ToList();
+    }
+
+    //private void CancelModel()
+    //{
+    //    ModalService.Close();
+    //}
+}
+

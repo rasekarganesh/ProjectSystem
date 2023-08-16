@@ -1,0 +1,87 @@
+﻿<Properties StartupConfiguration="{F4BA8E6C-E2BE-435F-9F95-404D9A25A5C7}|https">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Projektsystem.AppService/Services/UserService.cs">
+    <Files>
+      <File FileName="Projektsystem.BlazorApp/Program.cs" />
+      <File FileName="Projektsystem.BlazorApp/Shared/NavMenu.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Index.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Users.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Logs.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/HelpPage.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/LanguageSelector.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/_Host.cshtml" />
+      <File FileName="Projektsystem.BlazorApp/Shared/MainLayout.razor" />
+      <File FileName="Projektsystem.BlazorApp/App.razor" />
+      <File FileName="Projektsystem.BlazorApp/_Imports.razor" />
+      <File FileName="Projektsystem.Model/User.cs" />
+      <File FileName="Projektsystem.BlazorApp/Pages/UnauthorizedPage.razor" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Login.razor" />
+      <File FileName="Projektsystem.BlazorApp/wwwroot/js/GoogleAuth.js" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Error.cshtml" />
+      <File FileName="Projektsystem.Model/SocialModels/GoogleResponse.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IProjectRepository.cs" />
+      <File FileName="Projektsystem.Model/Budget.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IBudgetRepository.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IUserRepository.cs" />
+      <File FileName="Projektsystem.AppService/Repository/ICompanyRepository.cs" />
+      <File FileName="Projektsystem.Model/AuditLog.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IUILanguageRepository.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IUITextRepository.cs" />
+      <File FileName="Projektsystem.BlazorApp/Pages/ProjectModel.razor" />
+      <File FileName="Projektsystem.BlazorApp/Data/Flags.cs" />
+      <File FileName="Projektsystem.BlazorApp/Data/Icons.cs" />
+      <File FileName="Projektsystem.Model/Company.cs" />
+      <File FileName="Projektsystem.AppService/Services/BudgetService.cs" />
+      <File FileName="Projektsystem.AppService/Services/CompanyService.cs" />
+      <File FileName="Projektsystem.AppService/Services/UITextService.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IAuditLogRepository.cs" />
+      <File FileName="Projektsystem.AppService/Services/UserService.cs" Line="45" Column="1" />
+      <File FileName="Projektsystem.AppService/Services/UILanguageService.cs" />
+      <File FileName="Projektsystem.AppService/Services/ProjectService.cs" />
+      <File FileName="Projektsystem.AppService/Services/AuditLogService.cs" />
+      <File FileName="Projektsystem.BlazorApp/ServiceHelper/ProjektsystemStringLocalizer.cs" />
+      <File FileName="Projektsystem.Model/LogEventType.cs" />
+      <File FileName="Projektsystem.BlazorApp/ServiceHelper/LoginServiceHelper.cs" />
+      <File FileName="Projektsystem.BlazorApp/ServiceHelper/SocialAuthenticationProvider.cs" />
+      <File FileName="Projektsystem.BlazorApp/ServiceHelper/LanguageNotifierService.cs" />
+      <File FileName="Projektsystem.BlazorApp/Pages/Projects.razor" />
+      <File FileName="Projektsystem.Model/Project.cs" />
+      <File FileName="Projektsystem.BlazorApp/Pages/BudgetModel.razor" Line="7" Column="5" />
+      <File FileName="Projektsystem.BlazorApp/wwwroot/css/site.css" />
+      <File FileName="Projektsystem.BlazorApp/Pages/ProjectUserModel.razor" />
+      <File FileName="Projektsystem.Model/ProjectUser.cs" />
+      <File FileName="Projektsystem.AppService/Repository/IProjectUserRepository.cs" />
+      <File FileName="Projektsystem.AppService/Context/AppDBContext.cs" />
+      <File FileName="Projektsystem.AppService/Services/ProjectUserService.cs" />
+      <File FileName="Projektsystem.BlazorApp/wwwroot/js/FbAuth.js" />
+      <File FileName="Projektsystem.BlazorApp/wwwroot/js/MsAuth.js" />
+      <File FileName="Projektsystem.Model/SocialModels/MicrosoftResponse.cs" />
+      <File FileName="Projektsystem.XunitTest/Usings.cs" />
+      <File FileName="Projektsystem.XunitTest/UserServiceTest.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Projektsystem" expanded="True" selected="True">
+            <Node name="Projektsystem.BlazorApp" expanded="True">
+              <Node name="Properties" expanded="True" />
+              <Node name="ServiceHelper" expanded="True" />
+              <Node name="Shared" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/apple/Documents/vs2022/BlazorApp/Projektsystem/Projektsystem/Projektsystem.BlazorApp/Pages/Projects.razor" relfile="Projektsystem.BlazorApp/Pages/Projects.razor" line="158" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>PoC.BlazorApp/PoC.BlazorApp.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Projektsystem.BlazorApp PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>
